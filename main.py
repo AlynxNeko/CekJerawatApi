@@ -105,13 +105,17 @@ def recommend_medicine(pred_class):
         })
     return results
 
+from fastapi import Form
+
 @app.post("/predict/")
-async def predict(image_file: UploadFile = File(...), rule: RuleInput = None):
+async def predict(image_file: UploadFile = File(...), rule: str = Form(...)):
+    import json
     try:
-        if rule is None or len(rule.rules) != len(SYMPTOM_KEYS):
+        rule_data = json.loads(rule)
+        if "rules" not in rule_data or len(rule_data["rules"]) != len(SYMPTOM_KEYS):
             return JSONResponse(status_code=422, content={"error": "rules must be a list of 9 binary values."})
 
-        answers = {k: bool(v) for k, v in zip(SYMPTOM_KEYS, rule.rules)}
+        answers = {k: bool(v) for k, v in zip(SYMPTOM_KEYS, rule_data["rules"])}
 
         img_bytes = await image_file.read()
         img_np = np.frombuffer(img_bytes, np.uint8)
