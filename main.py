@@ -22,7 +22,7 @@ MODEL = tf.keras.models.load_model(MODEL_PATH)
 
 app = FastAPI()
 
-CLASS_NAMES = ['blackheads', 'kistik', 'nodul', 'nodulakistik', 'papula', 'pustula', 'whitehead']
+CLASS_NAMES = ['blackheads', 'kistik', 'nodul', 'nodulokistik', 'papula', 'pustula', 'whitehead']
 SYMPTOM_KEYS = [
     'komedo_hitam', 'titik_putih', 'berisi_nanah',
     'benjolan_merah', 'benjolan_besar', 'nyeri',
@@ -43,7 +43,7 @@ def rule_based_diagnosis(answers):
         scores['nodul'] += 1.0
         scores['kistik'] += 0.5
     if answers['benjolan_besar'] and answers['berisi_nanah']: scores['kistik'] += 1.0
-    if answers['menyatu'] and answers['berisi_nanah']: scores['nodulakistik'] += 1.0
+    if answers['menyatu'] and answers['berisi_nanah']: scores['nodulokistik'] += 1.0
     if answers['tekstur_keras']:
         scores['papula'] += 0.3
         scores['nodul'] += 0.2
