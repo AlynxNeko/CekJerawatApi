@@ -16,13 +16,13 @@ from tensorflow.keras.applications.efficientnet import preprocess_input
 app = FastAPI()
 
 CLASS_NAMES = ['blackheads', 'kistik', 'nodul', 'nodulakistik', 'papula', 'pustula', 'whitehead']
-MODEL = tf.keras.models.load_model("model/model.h5")
+MODEL = tf.keras.models.load_model("./model/model.h5")
 SYMPTOM_KEYS = [
     'komedo_hitam', 'titik_putih', 'berisi_nanah',
     'benjolan_merah', 'benjolan_besar', 'nyeri',
     'merah', 'menyatu', 'tekstur_keras'
 ]
-IMAGE_DIR = "obat_totol/extracted_images"
+IMAGE_DIR = "./obat_totol/extracted_images"
 
 class RuleInput(BaseModel):
     rules: list[int]
