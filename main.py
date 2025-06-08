@@ -13,16 +13,21 @@ import base64
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.efficientnet import preprocess_input
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+MODEL_PATH = os.path.join(BASE_DIR, "app", "model", "model.h5")
+IMAGE_DIR = os.path.join(BASE_DIR, "app", "obat_totol", "extracted_images")
+
+MODEL = tf.keras.models.load_model(MODEL_PATH)
+
 app = FastAPI()
 
 CLASS_NAMES = ['blackheads', 'kistik', 'nodul', 'nodulakistik', 'papula', 'pustula', 'whitehead']
-MODEL = tf.keras.models.load_model("./model/model.h5")
 SYMPTOM_KEYS = [
     'komedo_hitam', 'titik_putih', 'berisi_nanah',
     'benjolan_merah', 'benjolan_besar', 'nyeri',
     'merah', 'menyatu', 'tekstur_keras'
 ]
-IMAGE_DIR = "./obat_totol/extracted_images"
 
 class RuleInput(BaseModel):
     rules: list[int]
